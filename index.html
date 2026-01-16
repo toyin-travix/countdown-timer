@@ -49,11 +49,14 @@
     }
 
     .time {
-      font-size: clamp(14px, 3vw, 28px);
+      font-size: clamp(10px, 2vw, 20px);
+      /* Reduced size to fit longer text */
       font-weight: 700;
       color: #ffffff;
-      letter-spacing: 0.08em;
+      letter-spacing: 0.05em;
       text-shadow: 0 2px 4px rgba(0, 0, 0, 0.5);
+      white-space: nowrap;
+      /* Prevent wrapping */
     }
 
     .time .days {
@@ -68,7 +71,7 @@
     <img src="images/20260116-145313.jpg" alt="Golden Weeks Banner" class="banner-image" />
 
     <div class="countdown-overlay">
-      <div class="time" id="time">--D --:--:--</div>
+      <div class="time" id="time">-- days -- hours -- minutes -- seconds</div>
     </div>
   </div>
 
@@ -94,9 +97,9 @@
       const mins = Math.floor((totalSeconds % 3600) / 60);
       const secs = totalSeconds % 60;
 
-      // Display format: XD HH:MM:SS
+      // Display format: X days XX hours XX minutes XX seconds
       document.getElementById("time").innerHTML =
-        `<span class="days">${days} days</span> ${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+        `<span class="days">${days} days</span> ${hours} hours ${mins} minutes ${secs} seconds`;
     }
 
     tick();
