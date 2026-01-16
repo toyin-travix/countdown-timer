@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Countdown</title>
+  <style>
+    body { margin:0; font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial; display:flex; height:100vh; align-items:center; justify-content:center; }
+    .wrap { text-align:center; padding:4vw; }
+    .label { font-size:4vw; opacity:.8; margin-bottom:2vw; }
+    .time  { font-size:10vw; font-weight:700; letter-spacing:0.05em; }
+    .sub   { font-size:3vw; opacity:.75; margin-top:2vw; }
+  </style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="label" id="label">Counting down to…</div>
+    <div class="time" id="time">--:--:--</div>
+    <div class="sub" id="sub"></div>
+  </div>
+
+<script>
+  // ✅ Set your target moment here (ISO 8601).
+  // Option A (recommended): specify in UTC with Z
+  const targetIsoUtc = "2026-02-01T09:00:00Z";
+
+  // If you MUST target Amsterdam local time, convert it to UTC and put it here.
+  // Amsterdam 09:00 in winter = 08:00Z, in summer = 07:00Z. Use the correct one.
+
+  const target = new Date(targetIsoUtc).getTime();
+
+  // Optional label text
+  document.getElementById("label").textContent = "Countdown to 1 Feb 2026 09:00 (UTC)";
+
+  function pad(n){ return String(n).padStart(2, "0"); }
+
+  function tick() {
+    const now = Date.now();
+    let diff = target - now;
+
+    if (diff <= 0) {
+      document.getElementById("time").textContent = "00:00:00";
+      document.getElementById("sub").textContent = "Time reached!";
+      return;
+    }
+
+    const totalSeconds = Math.floor(diff / 1000);
+    const days = Math.floor(totalSeconds / 86400);
+    const hours = Math.floor((totalSeconds % 86400) / 3600);
+    const mins = Math.floor((totalSeconds % 3600) / 60);
+    const secs = totalSeconds % 60;
+
+    // Big display: HH:MM:SS (and show days separately)
+    document.getElementById("time").textContent = `${pad(hours)}:${pad(mins)}:${pad(secs)}`;
+    document.getElementById("sub").textContent = days > 0 ? `${days} day(s) remaining` : "";
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+</body>
+</html>
